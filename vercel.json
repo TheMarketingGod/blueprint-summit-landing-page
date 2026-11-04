@@ -1,6 +1,20 @@
 {
   "outputDirectory": "vercel-static",
   "cleanUrls": true,
+  "rewrites": [
+    { "source": "/wp-admin/:path*", "destination": "https://d9ed61e20cae53.lhr.life/wp-admin/:path*" },
+    { "source": "/wp-login.php", "destination": "https://d9ed61e20cae53.lhr.life/wp-login.php" },
+    { "source": "/wp-json/:path*", "destination": "https://d9ed61e20cae53.lhr.life/wp-json/:path*" },
+    { "source": "/wp-content/:path*", "destination": "https://d9ed61e20cae53.lhr.life/wp-content/:path*" },
+    { "source": "/wp-includes/:path*", "destination": "https://d9ed61e20cae53.lhr.life/wp-includes/:path*" },
+    { "source": "/wp-cron.php", "destination": "https://d9ed61e20cae53.lhr.life/wp-cron.php" },
+    { "source": "/index.php", "destination": "https://d9ed61e20cae53.lhr.life/index.php" },
+    {
+      "source": "/",
+      "has": [{ "type": "query", "key": "elementor-preview" }],
+      "destination": "https://d9ed61e20cae53.lhr.life/"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
