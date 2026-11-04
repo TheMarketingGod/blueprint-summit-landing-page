@@ -32,3 +32,11 @@ add_filter('elementor/document/urls/preview', function ($url) {
     return home_url('/index.php?' . $query);
 }, 10, 1);
 
+add_filter('redirect_canonical', function ($redirect_url) {
+    if (isset($_GET['elementor-preview'])) {
+        return false;
+    }
+
+    return $redirect_url;
+});
+
