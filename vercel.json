@@ -1,6 +1,14 @@
 {
   "outputDirectory": "vercel-static",
   "cleanUrls": true,
+  "rewrites": [
+    { "source": "/wp-admin/:path*", "destination": "http://WORDPRESS_ORIGIN_IP/wp-admin/:path*" },
+    { "source": "/wp-login.php", "destination": "http://WORDPRESS_ORIGIN_IP/wp-login.php" },
+    { "source": "/wp-json/:path*", "destination": "http://WORDPRESS_ORIGIN_IP/wp-json/:path*" },
+    { "source": "/wp-content/:path*", "destination": "http://WORDPRESS_ORIGIN_IP/wp-content/:path*" },
+    { "source": "/wp-includes/:path*", "destination": "http://WORDPRESS_ORIGIN_IP/wp-includes/:path*" },
+    { "source": "/wp-cron.php", "destination": "http://WORDPRESS_ORIGIN_IP/wp-cron.php" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
