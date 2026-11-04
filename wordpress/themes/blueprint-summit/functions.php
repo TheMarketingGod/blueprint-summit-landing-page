@@ -19,3 +19,16 @@ add_action('wp_head', function () {
     echo '<script defer src="/_vercel/insights/script.js"></script>';
 }, 1);
 
+// Keep Elementor's editor preview on a path that Vercel always proxies to
+// WordPress. The public homepage itself is a static Vercel export, so the
+// default `/?elementor-preview=...` URL would otherwise load that static file.
+add_filter('elementor/document/urls/preview', function ($url) {
+    $query = wp_parse_url($url, PHP_URL_QUERY);
+
+    if (!$query) {
+        return $url;
+    }
+
+    return home_url('/index.php?' . $query);
+}, 10, 1);
+
