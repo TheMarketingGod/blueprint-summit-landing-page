@@ -1,0 +1,7 @@
+{
+  "name": "blueprint-summit-landing-page",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-static-export.mjs"
+  }
+}

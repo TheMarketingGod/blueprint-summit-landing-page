@@ -3,7 +3,8 @@ import path from 'node:path';
 
 const root = process.cwd();
 const output = path.join(root, 'vercel-static');
-const local = 'http://localhost:8096';
+const origin = new URL(process.env.WORDPRESS_ORIGIN_URL || 'http://localhost:8096');
+const publicOrigin = 'https://summit.therayreynoldsuniversity.com';
 
 fs.rmSync(output, { recursive: true, force: true });
 fs.mkdirSync(output, { recursive: true });
@@ -12,7 +13,10 @@ const assetQueue = [];
 const seen = new Set();
 
 function cleanHtml(html) {
-  let cleaned = html.replaceAll(local, '');
+  let cleaned = html;
+  for (const value of [origin.origin, publicOrigin, 'http://localhost:8096']) {
+    cleaned = cleaned.replaceAll(value, '').replaceAll(value.replaceAll('/', '\\/'), '');
+  }
   if (!cleaned.includes('/_vercel/insights/script.js')) {
     cleaned = cleaned.replace('</head>', '<script defer src="/_vercel/insights/script.js"></script>\n</head>');
   }
@@ -20,14 +24,19 @@ function cleanHtml(html) {
 }
 
 function enqueue(text, baseUrl = '/') {
-  const matches = text.match(/(?:https?:\/\/localhost:8096)?\/(?:wp-content|wp-includes)\/[^\s"'<>),]+/g) || [];
-  for (let value of matches) {
-    value = value.replace(local, '').replaceAll('&#038;', '&').split('?')[0].split('#')[0];
-    assetQueue.push(value);
+  const normalizedText = text.replaceAll('\\/', '/').replaceAll('&amp;', '&').replaceAll('&#038;', '&');
+  const matches = normalizedText.match(/(?:https?:\/\/[^\s"'<>),]+)?\/(?:wp-content|wp-includes)\/[^\s"'<>),]+/g) || [];
+  for (const value of matches) {
+    try {
+      const parsed = new URL(value, publicOrigin);
+      assetQueue.push(parsed.pathname);
+    } catch {
+      // Ignore malformed URLs emitted by third-party plugins.
+    }
   }
   if (baseUrl.endsWith('.css')) {
     for (const match of text.matchAll(/url\((['"]?)([^)'"\s]+)\1\)/g)) {
-      const value = match[2];
+      const value = match[2].replaceAll('\\/', '/');
       if (value.startsWith('data:') || value.startsWith('http')) continue;
       const resolved = value.startsWith('/') ? value : path.posix.normalize(path.posix.join(path.posix.dirname(baseUrl), value));
       if (resolved.startsWith('/wp-content/') || resolved.startsWith('/wp-includes/')) assetQueue.push(resolved.split('?')[0]);
@@ -35,7 +44,9 @@ function enqueue(text, baseUrl = '/') {
   }
 }
 
-const response = await fetch(local + '/');
+const response = await fetch(new URL('/', origin), {
+  headers: { 'user-agent': 'BlueprintSummitStaticPublisher/1.0' },
+});
 if (!response.ok) throw new Error(`Unable to export WordPress homepage (${response.status})`);
 const html = cleanHtml(await response.text());
 fs.writeFileSync(path.join(output, 'index.html'), html);
@@ -45,7 +56,7 @@ while (assetQueue.length) {
   const urlPath = assetQueue.shift();
   if (!urlPath || seen.has(urlPath)) continue;
   seen.add(urlPath);
-  const assetResponse = await fetch(local + urlPath);
+  const assetResponse = await fetch(new URL(urlPath, origin));
   if (!assetResponse.ok) continue;
   const target = path.join(output, urlPath.replace(/^\//, ''));
   fs.mkdirSync(path.dirname(target), { recursive: true });

@@ -1,5 +1,6 @@
 {
   "outputDirectory": "vercel-static",
+  "buildCommand": "node scripts/build-static-export.mjs",
   "cleanUrls": true,
   "rewrites": [
     { "source": "/wp-admin", "destination": "https://accent-portrait-tales-spend.trycloudflare.com/wp-admin/" },
@@ -7,8 +8,6 @@
     { "source": "/wp-admin/:path*", "destination": "https://accent-portrait-tales-spend.trycloudflare.com/wp-admin/:path*" },
     { "source": "/wp-login.php", "destination": "https://accent-portrait-tales-spend.trycloudflare.com/wp-login.php" },
     { "source": "/wp-json/:path*", "destination": "https://accent-portrait-tales-spend.trycloudflare.com/wp-json/:path*" },
-    { "source": "/wp-content/:path*", "destination": "https://accent-portrait-tales-spend.trycloudflare.com/wp-content/:path*" },
-    { "source": "/wp-includes/:path*", "destination": "https://accent-portrait-tales-spend.trycloudflare.com/wp-includes/:path*" },
     { "source": "/wp-cron.php", "destination": "https://accent-portrait-tales-spend.trycloudflare.com/wp-cron.php" },
     { "source": "/index.php", "destination": "https://accent-portrait-tales-spend.trycloudflare.com/index.php" },
     {

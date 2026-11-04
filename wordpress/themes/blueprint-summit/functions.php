@@ -40,3 +40,27 @@ add_filter('redirect_canonical', function ($redirect_url) {
     return $redirect_url;
 });
 
+// Rebuild the static Vercel site after an Elementor publish/update. The hook
+// URL is stored in WordPress, not source control.
+function blueprint_summit_trigger_vercel_deploy($post_id) {
+    if ((int) $post_id !== (int) get_option('page_on_front')) {
+        return;
+    }
+
+    $hook = get_option('blueprint_summit_vercel_deploy_hook');
+    if (!$hook || get_transient('blueprint_summit_deploy_pending')) {
+        return;
+    }
+
+    set_transient('blueprint_summit_deploy_pending', 1, 20);
+    wp_remote_post($hook, [
+        'timeout' => 5,
+        'blocking' => false,
+        'headers' => ['User-Agent' => 'BlueprintSummitWordPressPublisher/1.0'],
+    ]);
+}
+
+add_action('elementor/editor/after_save', function ($post_id) {
+    blueprint_summit_trigger_vercel_deploy($post_id);
+}, 10, 1);
+
