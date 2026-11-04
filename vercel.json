@@ -3,6 +3,7 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/wp-admin", "destination": "https://accent-portrait-tales-spend.trycloudflare.com/wp-admin/" },
+    { "source": "/wp-admin/", "destination": "https://accent-portrait-tales-spend.trycloudflare.com/wp-admin/" },
     { "source": "/wp-admin/:path*", "destination": "https://accent-portrait-tales-spend.trycloudflare.com/wp-admin/:path*" },
     { "source": "/wp-login.php", "destination": "https://accent-portrait-tales-spend.trycloudflare.com/wp-login.php" },
     { "source": "/wp-json/:path*", "destination": "https://accent-portrait-tales-spend.trycloudflare.com/wp-json/:path*" },
