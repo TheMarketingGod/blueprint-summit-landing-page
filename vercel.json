@@ -2,6 +2,7 @@
   "outputDirectory": "vercel-static",
   "cleanUrls": true,
   "rewrites": [
+    { "source": "/wp-admin", "destination": "https://d9ed61e20cae53.lhr.life/wp-admin/" },
     { "source": "/wp-admin/:path*", "destination": "https://d9ed61e20cae53.lhr.life/wp-admin/:path*" },
     { "source": "/wp-login.php", "destination": "https://d9ed61e20cae53.lhr.life/wp-login.php" },
     { "source": "/wp-json/:path*", "destination": "https://d9ed61e20cae53.lhr.life/wp-json/:path*" },
