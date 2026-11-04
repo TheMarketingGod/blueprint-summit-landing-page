@@ -1,7 +1,6 @@
 {
   "outputDirectory": "vercel-static",
   "cleanUrls": true,
-  "trailingSlash": true,
   "headers": [
     {
       "source": "/(.*)",
