@@ -2,7 +2,6 @@
 .DS_Store
 .vercel/
 node_modules/
-vercel-static/
 wordpress-data/
 db-data/
 

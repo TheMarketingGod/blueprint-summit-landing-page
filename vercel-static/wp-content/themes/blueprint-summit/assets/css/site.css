@@ -1,0 +1,21 @@
+:root {
+  --ink: #061628;
+  --blue: #0a3159;
+  --cyan: #70d8ff;
+  --gold: #f1bf4a;
+  --cream: #f7f3e9;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--ink); color: var(--cream); font-family: Inter, Arial, sans-serif; }
+a { transition: transform .25s ease, box-shadow .25s ease, background .25s ease; }
+.elementor-button:hover { transform: translateY(-3px); box-shadow: 0 16px 32px rgba(112,216,255,.28); }
+.summit-hero { position: relative; overflow: hidden; min-height: 820px; background: radial-gradient(circle at 78% 24%, rgba(46,132,196,.42), transparent 33%), linear-gradient(135deg,#03111f,#0a3159 62%,#08243e); }
+.summit-hero::before { content:""; position:absolute; inset:0; opacity:.22; background-image: linear-gradient(rgba(112,216,255,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(112,216,255,.18) 1px,transparent 1px); background-size:44px 44px; }
+.summit-card { border: 1px solid rgba(112,216,255,.28); border-radius: 28px; background: rgba(8,34,59,.76); box-shadow: 0 28px 70px rgba(0,0,0,.34); backdrop-filter: blur(14px); }
+.summit-kicker { letter-spacing: .2em; text-transform: uppercase; color: var(--cyan); font-weight: 800; }
+.summit-gold { color: var(--gold); }
+@media (max-width: 767px) {
+  .summit-hero { min-height: auto; }
+}
+
