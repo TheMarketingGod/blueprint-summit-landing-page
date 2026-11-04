@@ -5,3 +5,5 @@ node_modules/
 wordpress-data/
 db-data/
 
+.vercel
+.env*
