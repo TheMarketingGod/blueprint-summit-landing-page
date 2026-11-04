@@ -6,4 +6,5 @@ wordpress-data/
 db-data/
 
 .vercel
+.local-bin/
 .env*
